@@ -14,7 +14,7 @@ i18n.use(initReactI18next).init({
         },
         ar: {
             translation: {
-                name:"اختبارر4",
+                name:"اختبارر6",
            
             },
         },

@@ -19,7 +19,7 @@ useEffect(()=>{
   async function fetchData() {
     try {
     setLoading(true)
-   let data =   await apiRequest(`https://kayanpay.pro/api/v1/vendor/login`, userData, "POST")
+     let data = await apiRequest(`${process.env.REACT_APP_URL}vendor/login`, userData, "POST")
    setLoading(false)
    console.log(data)
    setStatus(data.status)
