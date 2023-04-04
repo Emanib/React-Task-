@@ -28,10 +28,9 @@ export default function Admin() {
         }
     })
     const [t , ] = useTranslation()
-    const API_URL = process.env.REACT_APP_URL
      const getManufacturers = async()=>{
         setLoading(true)
-         let data = await apiRequest(`${API_URL}vendor/manufacturers?per_page=20&search=${searchValue.trim()}`,null, "GET")
+         let data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers?per_page=20&search=${searchValue.trim()}`,null, "GET")
          setLoading(false)
        setManufacturers(data.data)
     }
@@ -42,7 +41,7 @@ export default function Admin() {
  const getManufactureDetails = async ()=>{
     let data;
     
-        data = await apiRequest(`${API_URL}vendor/manufacturers/${id}`, null, "GET")
+     data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers/${id}`, null, "GET")
      setManufactureData({
          sort: data?.data?.sort_order || "",
          name: { en: data?.data?.name?.en || data?.data?.name?.ar }
@@ -97,7 +96,7 @@ export default function Admin() {
    
  }
  const handleDeleteManufacture = (id :string)=>{
-     apiRequest(`${API_URL}vendor/manufacturers/${id}`,null, "DELETE")
+     apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers/${id}`,null, "DELETE")
  }
     const handleOptionSelect = (e: React.ChangeEvent<HTMLSelectElement> ,id:string)=>{
   setSelectOptions(e.target.value)
@@ -126,9 +125,9 @@ export default function Admin() {
         } 
         let data ; 
         if (id){
-          data=  await apiRequest(`${API_URL}vendor/manufacturers/${id}`, sendData, "PUT")
+            data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers/${id}`, sendData, "PUT")
         }else {
-          data = await apiRequest(`${API_URL}vendor/manufacturers`, sendData, "POST")
+            data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers`, sendData, "POST")
         }
         setStatus(data.status)
          
@@ -149,7 +148,7 @@ export default function Admin() {
     const handleUpdateSwitch = (id:string ,status:number)=>{
         let sendData; 
          status ===0 ? sendData = {status: 1} : sendData = {status:0}
-        apiRequest(`${API_URL}vendor/manufacturers/status/${id}`, sendData, "PUT")
+        apiRequest(`API_URLvendor/manufacturers/status/${id}`, sendData, "PUT")
         getManufacturers()
     }
     const handleLanguageSelect = (e: React.ChangeEvent<HTMLSelectElement>)=>{
