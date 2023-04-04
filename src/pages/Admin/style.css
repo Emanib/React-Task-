@@ -1,0 +1,121 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    /* background-color: #f4f7f9 */
+}
+.wrapper-products {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+}
+tr th {
+    font-size: 12px;
+}
+.search-input{
+    /* background-color: #f4f7f9; */
+    margin: 15px;
+}
+input {
+    background-color: #f4f7f9
+}
+.products-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-left: 1rem;
+    overflow-x: auto;
+ 
+}
+
+.products-table th,
+.products-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.products-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.products-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+img {
+    width:50px; 
+    height:50px;
+}
+.wrapper-pagination{
+    display: flex;
+    gap:10px;
+}
+.pagination {
+    display: flex;
+    align-self: flex-end;
+    margin-right: 1.7rem;
+    order:2
+}
+select {
+    outline: none;
+}
+.search-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-product {
+    background-color: #F1416c;
+    color:white; 
+  border: none;
+  border-radius: 2px;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+.add-manufacture > div> input {
+width: 100%;
+}
+.add-manufacture>div> label {
+    font-size: 12px;
+text-transform: uppercase;
+}
+.actions {
+    display: flex;
+    gap:5px;
+    justify-content: flex-end;
+
+}
+.save-btn {
+    background-color:#F1416c;
+    padding: 7px 5px;
+    color: white;
+}
+.cancel-btn , .save-btn {
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.cancel-btn{
+    padding: 10px;
+}
+select {
+    appearance: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 20rem;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #F1416c;;
+}
+
+select option {
+    font-size: 1rem;
+}

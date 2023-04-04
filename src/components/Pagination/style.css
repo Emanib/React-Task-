@@ -1,0 +1,16 @@
+.btn-page {
+    border:none;
+    margin-left: 1px;
+    padding: 7px 10px;
+    border-radius: 3px;
+
+}
+ .active {
+ background-color: #F1416c;
+   color: white;
+ border: none;
+ margin-left: 1px;
+   padding: 7px 10px;
+   border-radius: 3px;
+    
+}

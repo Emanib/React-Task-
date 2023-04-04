@@ -1,0 +1,30 @@
+.switch-button {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.switch-button-toggle {
+    position: relative;
+    top: 2px;
+    width: 26px;
+    height: 26px;
+    background-color: #fff;
+    border-radius: 13px;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.switch-button-toggle.on {
+    transform: translateX(20px);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    background-color:#F1416c ;
+}
+
+.switch-button-toggle.off {
+    transform: translateX(2px);
+    box-shadow: none;
+}
