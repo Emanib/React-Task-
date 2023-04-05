@@ -119,3 +119,6 @@ select:focus {
 select option {
     font-size: 1rem;
 }
+.select-lang {
+    font-size: 14px;
+}

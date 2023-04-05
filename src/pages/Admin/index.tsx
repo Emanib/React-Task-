@@ -7,13 +7,12 @@ import Modal from '../../components/Modal'
 import './style.css'
 import Input from '../../components/Input'
 import { useTranslation } from "react-i18next";
-
+import useFetch from '../../hooks/useFetch'
 export default function Admin() {
-    const [manufacturers, setManufacturers] =useState([])
+
     const [searchValue, setSearchValue]=useState("") //should handle case debounce for many requests 
     const [currentPage ,setCurrentPage]=useState(1)
     const [productPerPage, setProductPerPage]=useState(3)
-    const [loading, setLoading]=useState(false)
     const [isOpen , setIsOpen]=useState(false)
     const [image,setImage]=useState<any>("")
     const [selectOptions, setSelectOptions]=useState("")
@@ -27,17 +26,11 @@ export default function Admin() {
     const [wordEnglish, setWordEnglish]=useState("")
     const [wordArabic, setWordArabic]=useState("")
 
-    const { t, i18n } = useTranslation();
 
-     const getManufacturers = async()=>{
-        setLoading(true)
-         let data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers?per_page=30&search=${searchValue.trim()}`,null, "GET")
-         setLoading(false)
-       setManufacturers(data.data)
-    }
-    useEffect(()=>{
-    getManufacturers()
-    }, [searchValue, productPerPage, currentPage]) 
+    const {  i18n } = useTranslation();
+    const { manufacturers, loading, getManufacturers}= useFetch(productPerPage, currentPage,searchValue)
+
+    
     const handleNameEnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWordEnglish(e.target.value);
     };
@@ -76,6 +69,8 @@ export default function Admin() {
     const currentProducts = manufacturers?.slice(firstProductIndex, lastProductIndex);
  
     const handleOpenModal = () => {
+        setWordArabic("")
+        setWordEnglish("")
         setIsOpen(true);
     };
 
@@ -92,16 +87,6 @@ export default function Admin() {
 
     }
    
-     // detect language 
-    // function isArabic(strInput) {
-    //     var arregex = /[\u0600-\u06FF]/;
-    //     if (arregex.test(strInput)) {
-    //         console.log('Yes, Has Arabic Characters');
-    //     } else {
-    //         console.log('No, Has Not Arabic Characters');
-    //     }
-    // }
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const {name, value} =e.target
 
@@ -129,7 +114,6 @@ export default function Admin() {
   
      }
     }
-console.log(manufactureData,"data changes", wordArabic, wordEnglish)
  const submitData = async ()=>{
     const {sort} = manufactureData
     if( !!manufactureData.sort && !!image ){
@@ -193,9 +177,9 @@ console.log(manufactureData,"data changes", wordArabic, wordEnglish)
                   <tr>
                       <th>Manufacture</th>
                       <th>
-                         <select  value={selectLang} onChange = {(e)=> handleLanguageSelect(e)} >
+                         <select  value={selectLang} onChange = {(e)=> handleLanguageSelect(e)} className='select-lang' >
                             {/* <option value=""> select</option> */}
-                            <option value="en"> Name in English</option>
+                            <option value="en" > Name in English</option>
                             <option value="ar"> Name in Arabic </option>
                         </select>
                       </th>
@@ -231,7 +215,7 @@ console.log(manufactureData,"data changes", wordArabic, wordEnglish)
           </table>
           <div className='wrapper-pagination'>
               <div className='pagination' >
-                      <Pagination pages={productPerPage} currentPage={currentPage} setPage={setCurrentPage} totalProducts={manufacturers?.length}  />
+            <Pagination pages={productPerPage} currentPage={currentPage} setPage={setCurrentPage} totalProducts={manufacturers?.length}  />
               </div>
               <div>
               <select value={productPerPage} onChange={(e) => setProductPerPage(+e.target.value)} >
@@ -254,7 +238,7 @@ console.log(manufactureData,"data changes", wordArabic, wordEnglish)
                       <Input type="text" label="order" name="sort" placeholder="enter number" value= {manufactureData.sort} isOrder ={true} onChange={handleChange} />
                    <div className='actions'>
                     <button className='cancel-btn' onClick={handleCancel} >cancel </button>
-                    <button className='save-btn' onClick={submitData} > save changes </button>
+                    <button className='save-btn' onClick={submitData} >{ loading? "loading": "save changes"} </button>
                  </div>
               </div>
               </div>
