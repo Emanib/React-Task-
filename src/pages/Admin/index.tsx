@@ -22,32 +22,40 @@ export default function Admin() {
     const [status, setStatus]=useState(false)
     const [manufactureData, setManufactureData]=useState <any>({
         sort: "",
-        name:{
-            en:"", 
-            ar:""
-        }
+ 
     })
-    const [t , ] = useTranslation()
+    const [wordEnglish, setWordEnglish]=useState("")
+    const [wordArabic, setWordArabic]=useState("")
+
+    const { t, i18n } = useTranslation();
+
      const getManufacturers = async()=>{
         setLoading(true)
-         let data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers?per_page=20&search=${searchValue.trim()}`,null, "GET")
+         let data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers?per_page=30&search=${searchValue.trim()}`,null, "GET")
          setLoading(false)
        setManufacturers(data.data)
     }
     useEffect(()=>{
     getManufacturers()
     }, [searchValue, productPerPage, currentPage]) 
+    const handleNameEnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWordEnglish(e.target.value);
+    };
 
+    const handleNameArChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWordArabic(e.target.value);
+    };
  const getManufactureDetails = async ()=>{
     let data;
     
      data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers/${id}`, null, "GET")
      setManufactureData({
          sort: data?.data?.sort_order || "",
-         name: { en: data?.data?.name?.en || data?.data?.name?.ar }
+  
      })
+     setWordEnglish(data?.data?.name?.en)
+     setWordArabic(data?.data?.name?.ar)
  
-     
  }
 
     useEffect(() => {
@@ -83,13 +91,21 @@ export default function Admin() {
         }
 
     }
+   
+     // detect language 
+    // function isArabic(strInput) {
+    //     var arregex = /[\u0600-\u06FF]/;
+    //     if (arregex.test(strInput)) {
+    //         console.log('Yes, Has Arabic Characters');
+    //     } else {
+    //         console.log('No, Has Not Arabic Characters');
+    //     }
+    // }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const {name, value} =e.target
-   
-    if (name ==="name"){
-        setManufactureData((prev:any) => ({ ...prev, name: { en: value, ar: t("name") } }))
-    } 
-    if (name ==="sort"){
+
+      if (name ==="sort"){
         setManufactureData((prev:any) => ({ ...prev, sort:value }))
 
     }
@@ -113,16 +129,20 @@ export default function Admin() {
   
      }
     }
-
+console.log(manufactureData,"data changes", wordArabic, wordEnglish)
  const submitData = async ()=>{
-    const {sort, name} = manufactureData
-    if(!!manufactureData.name && !!manufactureData.sort && !!image ){
+    const {sort} = manufactureData
+    if( !!manufactureData.sort && !!image ){
         const sendData = {
        
-            name,
+            name:{
+                ar:wordArabic, 
+                en:wordEnglish
+            },
             "image":image,
              sort:+sort
         } 
+        console.log(sendData,"sendd")
         let data ; 
         if (id){
             data = await apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers/${id}`, sendData, "PUT")
@@ -134,7 +154,6 @@ export default function Admin() {
     }
  
 
-
  }
     const hiddenFileInput:any = React.useRef(null);
     const handleClick = () => {
@@ -142,7 +161,9 @@ export default function Admin() {
     };
     const handleCancel = ()=>{
         handleCloseModal()
-        setManufactureData({ name: {en:"", ar:""}, sort: "" })
+        setManufactureData({  sort: "" })
+        setWordArabic("")
+        setWordEnglish("")
         setImage("")
     }
     const handleUpdateSwitch = (id:string ,status:number)=>{
@@ -228,8 +249,9 @@ export default function Admin() {
                    </div>
       
                  <div className='add-manufacture'>
-                      <Input type="text" label="Name" name="name" value= { manufactureData.name.en} onChange={handleChange} />
-                      <Input type="text" label="order" name="sort" value= {manufactureData.sort} onChange={handleChange} />
+                    {/* <div className='multi-lang' >  */}
+                      <Input type="text" label="Name" name="name" value={i18n.language === 'ar'? wordArabic: wordEnglish} onChange={i18n.language === 'ar' ? handleNameArChange : handleNameEnChange}  />
+                      <Input type="text" label="order" name="sort" placeholder="enter number" value= {manufactureData.sort} isOrder ={true} onChange={handleChange} />
                    <div className='actions'>
                     <button className='cancel-btn' onClick={handleCancel} >cancel </button>
                     <button className='save-btn' onClick={submitData} > save changes </button>

@@ -1,0 +1,34 @@
+label {
+    font-size: 14px;
+}
+.multi-lang {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.languages {
+   display: flex;
+   gap:10px;
+}
+.english-btn, .arabic-btn {
+    border:none;
+}
+.english-btn {
+   padding: 10px 20px;
+   
+}
+.arabic-btn {
+   
+    background-repeat: no-repeat;
+}
+.container-btn {
+    display: flex;
+    align-items: center;
+}
+.english-flag {
+    width:30px;
+    height: 30px;
+    object-fit: contain;
+    display: flex;
+    gap:20px;
+}
