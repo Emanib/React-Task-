@@ -169,7 +169,7 @@ console.log(manufactureData,"data changes", wordArabic, wordEnglish)
     const handleUpdateSwitch = (id:string ,status:number)=>{
         let sendData; 
          status ===0 ? sendData = {status: 1} : sendData = {status:0}
-        apiRequest(`API_URLvendor/manufacturers/status/${id}`, sendData, "PUT")
+        apiRequest(`https://kayanpay.pro/api/v1/vendor/manufacturers/status/${id}`, sendData, "PUT")
         getManufacturers()
     }
     const handleLanguageSelect = (e: React.ChangeEvent<HTMLSelectElement>)=>{
